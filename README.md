@@ -7,3 +7,5 @@ To get started:
 1. clone this repo
 2. `flyctl launch`
 3. view the deployed app with flyctl open
+
+cloned from https://github.com/fly-apps/go-example

@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  install-build-fe:
+  prepare-fe:
     name: Install Front End
     runs-on: ubuntu-latest
     defaults:
@@ -18,16 +18,9 @@ jobs:
             node-version: 16.x
         - run: yarn install
         - run: yarn run build
-  inject-fe:
-    needs: [install-build-fe]
-    name: Inject Front End
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Inject Front End
-      run: test -d "./front-end/build" && echo "found"
+        - run: test -d "./front-end/build" && echo "found"      
   deploy:
-    needs: [install-build-fe, inject-fe]
+    needs: [prepare-fe]
     name: Deploy app
     runs-on: ubuntu-latest
     defaults:

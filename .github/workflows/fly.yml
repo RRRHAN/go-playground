@@ -13,6 +13,8 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: 16.x
+        - uses: actions/checkout@v3
+        - uses: superfly/flyctl-actions/setup-flyctl@master
         - name: Install fe dependencies
           run: yarn install
           working-directory: ./front-end
@@ -21,8 +23,6 @@ jobs:
           working-directory: ./front-end
         - name: inject fe
           run: test -d "./back-end/_ui" || mkdir "./back-end/_ui" && cp -R "./front-end/build/"* "./back-end/_ui"
-        - uses: actions/checkout@v3
-        - uses: superfly/flyctl-actions/setup-flyctl@master
         - name: Deploy with fly
           run: flyctl deploy --remote-only
           working-directory: ./back-end 

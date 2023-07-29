@@ -18,7 +18,7 @@ jobs:
             node-version: 16.x
         - run: yarn install
         - run: yarn run build
-        - run: test -d "./front-end/build" && echo "found"      
+        - run: test -d "../back-end/_ui" || mkdir "../back-end/_ui" && cp -R "./build/"* "../back-end/_ui"    
   deploy:
     needs: [prepare-fe]
     name: Deploy app

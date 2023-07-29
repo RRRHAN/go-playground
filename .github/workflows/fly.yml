@@ -4,19 +4,30 @@ on:
     branches:
       - master
 jobs:
-  install-fe:
+  install-build-fe:
     name: Install Front End
     runs-on: ubuntu-latest
     defaults:
       run:
-          working-directory: ./back-end
+          working-directory: ./front-end
     steps:
         - uses: actions/checkout@v2
         - name: Use Node.js 16.x
           uses: actions/setup-node@v3
           with:
             node-version: 16.x
-        - run: make install-fe
+        - run: yarn install
+        - run: yarn run build
+  inject-fe:
+    name: Inject Front End
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+          working-directory: ./back-end
+    steps:
+    - uses: actions/checkout@master
+    - name: Copy the Readmes
+      run: test -d "./_ui" || mkdir "./_ui" && cp -R "../front-end/build/"* "./_ui"
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest

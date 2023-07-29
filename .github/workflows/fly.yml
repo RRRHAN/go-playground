@@ -4,31 +4,26 @@ on:
     branches:
       - master
 jobs:
-  prepare-fe:
+  deploy:
     name: Install Front End
     runs-on: ubuntu-latest
-    defaults:
-      run:
-          working-directory: ./front-end
     steps:
         - uses: actions/checkout@v2
         - name: Use Node.js 16.x
           uses: actions/setup-node@v3
           with:
             node-version: 16.x
-        - run: yarn install
-        - run: yarn run build
-        - run: test -d "../back-end/_ui" || mkdir "../back-end/_ui" && cp -R "./build/"* "../back-end/_ui"    
-  deploy:
-    needs: [prepare-fe]
-    name: Deploy app
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-          working-directory: ./back-end
-    steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        - name: Install fe dependencies
+          run: yarn install
+          working-directory: ./front-end
+        - name: Build fe
+          run: yarn run build
+          working-directory: ./front-end
+        - name: Build fe
+          run: test -d "./back-end/_ui" || mkdir "./back-end/_ui" && cp -R "./front-end/build/"* "./back-end/_ui"
+        - uses: actions/checkout@v3
+        - uses: superfly/flyctl-actions/setup-flyctl@master
+        - run: flyctl deploy --remote-only
+          env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      

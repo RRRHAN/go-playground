@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  install-build-fe:
+  job1:
     name: Install Front End
     runs-on: ubuntu-latest
     defaults:
@@ -18,7 +18,7 @@ jobs:
             node-version: 16.x
         - run: yarn install
         - run: yarn run build
-  inject-fe:
+  job2:
     name: Inject Front End
     runs-on: ubuntu-latest
     defaults:
@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@master
     - name: Copy the Readmes
       run: test -d "./_ui" || mkdir "./_ui" && cp -R "../front-end/build/"* "./_ui"
-  deploy:
+  job3:
     name: Deploy app
     runs-on: ubuntu-latest
     defaults:

@@ -28,7 +28,6 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "fontfaceobserver": "2.3.0",
-    "husky": "8.0.1",
     "i18next": "21.9.2",
     "i18next-browser-languagedetector": "6.1.5",
     "i18next-scanner": "4.0.0",
@@ -86,8 +85,7 @@
     "generate": "plop --plopfile internals/generators/plopfile.ts",
     "prettify": "prettier --write",
     "extract-messages": "i18next-scanner --config=internals/extractMessages/i18next-scanner.config.js",
-    "test:coverage": "yarn run test --watchAll=false --coverage",
-    "prepare": "husky install"
+    "test:coverage": "yarn run test --watchAll=false --coverage"
   },
   "browserslist": {
     "production": [

@@ -22,13 +22,10 @@ jobs:
     needs: [install-build-fe]
     name: Inject Front End
     runs-on: ubuntu-latest
-    defaults:
-      run:
-          working-directory: ./back-end
     steps:
     - uses: actions/checkout@master
-    - name: Copy the Readmes
-      run: test -d "./_ui" || mkdir "./_ui" && cp -R "../front-end/build/"* "./_ui"
+    - name: Inject Front End
+      run: test -d "./back-end/_ui" || mkdir "./back-end/_ui" && cp -R "./front-end/build/"* "./back-end/_ui"
   deploy:
     needs: [install-build-fe, inject-fe]
     name: Deploy app

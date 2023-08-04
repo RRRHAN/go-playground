@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 
-const foo = String(process.env.REACT_APP_FOO);
 const BASE_URL = String(process.env.REACT_APP_BASE_URL);
 
 export function HomePage() {
@@ -51,7 +50,6 @@ export function HomePage() {
         <title>Home Page</title>
         <meta name="description" content="A Boilerplate application homepage" />
       </Helmet>
-      <h1 className="text-center text-3xl">FOO : {foo}</h1>
       <div className="flex justify-center">
         <input type="file" multiple onChange={handleCahngeInput} />
         <input

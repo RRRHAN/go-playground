@@ -21,10 +21,14 @@ jobs:
       - name: Build fe
         run: yarn run build
         working-directory: ./front-end
+        env:
+          REACT_APP_FOO: bar
+          REACT_APP_BASE_URL: /api/
       - name: inject fe
         run: mkdir "./back-end/ui" && cp -R "./front-end/build/"* "./back-end/ui"
       - name: Deploy with fly
         run: flyctl deploy --remote-only
         working-directory: ./back-end
         env:
+          foo: bar
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

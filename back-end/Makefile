@@ -1,7 +1,10 @@
 SHELL := cmd.exe
 
 dev:
-	nodemon --exec go run main.go
+	set host=127.0.0.1&& set foo=bar&& nodemon --exec go run main.go
+
+install-migration:
+	go install -tags "sqlite3" github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
 install-fe:
 	cd ../front-end && \
@@ -20,8 +23,8 @@ build-fe:
 	make inject-fe
 
 inject-fe:
-	test -d "./_ui" || \
-	mkdir "./_ui" && \
-	cp -R "../front-end/build/"* "./_ui" && \
-	echo "success to inject fe to _ui folder"
+	rm -r "./ui" & \
+	mkdir "./ui" && \
+	cp -R "../front-end/build/"* "./ui" && \
+	echo "success to inject fe to ui folder"
 	

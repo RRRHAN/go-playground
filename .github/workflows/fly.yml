@@ -8,24 +8,23 @@ jobs:
     name: Deploy App
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-        - name: Use Node.js 16.x
-          uses: actions/setup-node@v3
-          with:
-            node-version: 16.x
-        - uses: actions/checkout@v3
-        - uses: superfly/flyctl-actions/setup-flyctl@master
-        - name: Install fe dependencies
-          run: yarn install
-          working-directory: ./front-end
-        - name: Build fe
-          run: yarn run build
-          working-directory: ./front-end
-        - name: inject fe
-          run: test -d "./back-end/_ui" || mkdir "./back-end/_ui" && cp -R "./front-end/build/"* "./back-end/_ui"
-        - name: Deploy with fly
-          run: flyctl deploy --remote-only
-          working-directory: ./back-end 
-          env:
-            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Install fe dependencies
+        run: yarn install
+        working-directory: ./front-end
+      - name: Build fe
+        run: yarn run build
+        working-directory: ./front-end
+      - name: inject fe
+        run: mkdir "./back-end/ui" && cp -R "./front-end/build/"* "./back-end/ui"
+      - name: Deploy with fly
+        run: flyctl deploy --remote-only
+        working-directory: ./back-end
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

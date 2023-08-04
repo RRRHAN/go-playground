@@ -4,13 +4,16 @@ import (
 	"embed"
 	"io/fs"
 	"net/http"
+	"os"
 	"strings"
 
+	"github.com/RRRHAN/go-playground/back-end/database"
+	"github.com/RRRHAN/go-playground/back-end/routes"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-//go:embed _ui
+//go:embed ui
 var UI embed.FS
 
 type embedFileSystem struct {
@@ -36,15 +39,17 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 }
 
 func main() {
-	r := gin.Default()
-	api := r.Group("/api")
-	api.GET("/health-check", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Server running properly",
-		})
-	})
 
-	uiFs := EmbedFolder(UI, "_ui")
+	db, err := database.NewDB()
+	if err != nil {
+		panic(err)
+	}
+
+	r := gin.Default()
+	api := r.Group("/")
+	routes.AddAPIRoutes(api, db)
+
+	uiFs := EmbedFolder(UI, "ui")
 
 	staticServer := static.Serve("/", uiFs)
 
@@ -58,5 +63,5 @@ func main() {
 		}
 	})
 
-	r.Run(":8080")
+	r.Run(os.Getenv("host") + ":8080")
 }

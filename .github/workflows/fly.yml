@@ -30,5 +30,4 @@ jobs:
         run: flyctl deploy --remote-only
         working-directory: ./back-end
         env:
-          foo: bar
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

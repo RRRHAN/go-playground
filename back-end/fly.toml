@@ -6,6 +6,10 @@
 app = "go-playground"
 primary_region = "sin"
 
+[mounts]
+  source="data"
+  destination="/data"
+
 [build]
   builder = "paketobuildpacks/builder:base"
   buildpacks = ["gcr.io/paketo-buildpacks/go"]

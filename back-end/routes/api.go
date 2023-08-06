@@ -30,6 +30,17 @@ func AddAPIRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 		})
 	})
 
+	api.GET("/wd", func(c *gin.Context) {
+		wd, err := os.Getwd()
+		if err != nil {
+			c.String(http.StatusInternalServerError, fmt.Sprintln("failed to get wd - %w", err.Error()))
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"foo": wd,
+		})
+	})
+
 	api.Static("/static", "./data/static")
 
 	api.GET("/images", func(c *gin.Context) {

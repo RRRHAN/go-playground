@@ -64,13 +64,7 @@ func AddAPIRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 		}
 		files := form.File["images"]
 
-		wd, err := os.Getwd()
-		if err != nil {
-			c.String(http.StatusInternalServerError, fmt.Sprintln("failed to get wd - %w", err.Error()))
-			return
-		}
-
-		staticFolder := filepath.Join(wd, "data", "static")
+		staticFolder := filepath.Join("data", "static")
 		imageNames := make([]string, 0)
 
 		for _, file := range files {

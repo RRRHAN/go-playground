@@ -37,7 +37,7 @@ func AddAPIRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{
-			"foo": wd,
+			"wd": wd,
 		})
 	})
 

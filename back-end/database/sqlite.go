@@ -36,7 +36,7 @@ func NewDB() (db *sqlx.DB, err error) {
 		}
 	}
 
-	db, err = sqlx.Open("sqlite3", "file:data/main.sqlite3")
+	db, err = sqlx.Open("sqlite3", "file:/data/main.sqlite3")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sqlite connection - %w", err)
 	}

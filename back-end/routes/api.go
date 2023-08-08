@@ -64,7 +64,7 @@ func AddAPIRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 		}
 		files := form.File["images"]
 
-		staticFolder := filepath.Join("data", "static")
+		staticFolder := filepath.Join("/", "data", "static")
 		imageNames := make([]string, 0)
 
 		for _, file := range files {

@@ -36,7 +36,12 @@ func NewDB() (db *sqlx.DB, err error) {
 		}
 	}
 
-	db, err = sqlx.Open("sqlite3", "file:./data/main.sqlite3")
+	databaseSource := os.Getenv("DATABASE_SOURCE")
+	if databaseSource == "" {
+		return nil, errors.New("failed to get database source")
+	}
+
+	db, err = sqlx.Open("sqlite3", databaseSource)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sqlite connection - %w", err)
 	}

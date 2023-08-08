@@ -1,7 +1,7 @@
 SHELL := cmd.exe
 
 dev:
-	set host=127.0.0.1&& set foo=bar&& nodemon --exec go run main.go
+	nodemon --exec go run main.go
 
 install-migration:
 	go install -tags "sqlite3" github.com/golang-migrate/migrate/v4/cmd/migrate@latest

@@ -11,6 +11,7 @@ import (
 	"github.com/RRRHAN/go-playground/back-end/routes"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 //go:embed ui
@@ -39,7 +40,7 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 }
 
 func main() {
-
+	godotenv.Load()
 	db, err := database.NewDB()
 	if err != nil {
 		panic(err)

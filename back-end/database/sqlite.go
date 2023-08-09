@@ -36,12 +36,17 @@ func NewDB() (db *sqlx.DB, err error) {
 		}
 	}
 
-	databaseSource := os.Getenv("DATABASE_SOURCE")
-	if databaseSource == "" {
-		return nil, errors.New("failed to get database source")
+	environment := os.Getenv("ENVIRONMENT")
+	if environment == "" {
+		return nil, errors.New("failed to environment")
 	}
 
-	db, err = sqlx.Open("sqlite3", databaseSource)
+	databasePath := "data/main.sqlite3"
+	if environment == "staging" {
+		databasePath = "/" + databasePath
+	}
+
+	db, err = sqlx.Open("sqlite3", "file:"+databasePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sqlite connection - %w", err)
 	}

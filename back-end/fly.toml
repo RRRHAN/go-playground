@@ -16,7 +16,7 @@ primary_region = "sin"
 
 [env]
   PORT = "8080"
-  DATABASE_SOURCE = "file:/data/main.sqlite3"
+  ENVIRONMENT = "staging"
 
 [http_service]
   internal_port = 8080

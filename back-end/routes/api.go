@@ -41,7 +41,7 @@ func AddAPIRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 		})
 	})
 
-	api.Static("/static", "./data/static")
+	api.Static("/static", "/data/static")
 
 	api.GET("/images", func(c *gin.Context) {
 

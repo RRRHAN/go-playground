@@ -8,19 +8,17 @@ jobs:
   golangci:
     name: lint
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./back-end
     steps:
       - uses: actions/setup-go@v4
         with:
           go-version: "1.20"
           cache: false
       - name: make directory ui to avoid lint error
-        run: mkdir ui
+        run: mkdir "./back-end/ui"
       - uses: actions/checkout@v3
       - name: golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.0
           golangci-lint --version
           golangci-lint run --timeout 5m -v
+        working-directory: ./back-end

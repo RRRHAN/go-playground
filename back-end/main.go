@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"io/fs"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -23,10 +24,7 @@ type embedFileSystem struct {
 
 func (e embedFileSystem) Exists(prefix string, path string) bool {
 	_, err := e.Open(path)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
@@ -40,7 +38,11 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 }
 
 func main() {
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
 	db, err := database.NewDB()
 	if err != nil {
 		panic(err)
@@ -64,5 +66,8 @@ func main() {
 		}
 	})
 
-	r.Run(os.Getenv("host") + ":8080")
+	err = r.Run(os.Getenv("host") + ":8080")
+	if err != nil {
+		log.Fatalf("failed to start Server %v", err)
+	}
 }

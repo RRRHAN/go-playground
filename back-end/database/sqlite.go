@@ -41,7 +41,12 @@ func NewDB() (db *sqlx.DB, err error) {
 		return nil, errors.New("failed to environment")
 	}
 
-	databasePath := "data/main.sqlite3"
+	databaseName := "main"
+	if environment == "test" {
+		databaseName = "test"
+	}
+
+	databasePath := fmt.Sprintf("data/%s.sqlite3", databaseName)
 	if environment == "staging" {
 		databasePath = "/" + databasePath
 	}

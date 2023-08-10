@@ -1,3 +1,4 @@
 ui
-data
+data/*
+test/data/*
 .env

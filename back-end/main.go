@@ -40,7 +40,7 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		panic(err)
+		log.Print("failed to get .env ignore this when in staging")
 	}
 
 	db, err := database.NewDB()

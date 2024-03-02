@@ -1,0 +1,47 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Install fe dependencies
+        run: yarn install
+        working-directory: ./front-end
+      - name: Build fe
+        run: yarn run build
+        working-directory: ./front-end
+        env:
+          REACT_APP_FOO: bar
+          REACT_APP_BASE_URL: /api/
+      - name: inject fe
+        run: mkdir "./back-end/ui" && cp -R "./front-end/build/"* "./back-end/ui"
+      - uses: actions/checkout@v2
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '333.0.0'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - run: |
+          gcloud auth configure-docker
+          gcloud components install beta
+        working-directory: ./back-end
+      - run: docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name .
+        working-directory: ./back-end
+      - run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name
+        working-directory: ./back-end
+      - run: gcloud beta run deploy your-app-name --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name --platform managed --region your-region
+        working-directory: ./back-end
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}

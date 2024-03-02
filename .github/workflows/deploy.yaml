@@ -33,6 +33,7 @@ jobs:
           version: '333.0.0'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+          path: back-end
       - run: |
           gcloud auth configure-docker
           gcloud components install beta

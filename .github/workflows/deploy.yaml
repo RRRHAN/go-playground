@@ -28,7 +28,7 @@ jobs:
       - name: inject fe
         run: mkdir "./back-end/ui" && cp -R "./front-end/build/"* "./back-end/ui"
       - uses: actions/checkout@v2
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@v2
         with:
           version: '333.0.0'
           project_id: ${{ secrets.GCP_PROJECT_ID }}

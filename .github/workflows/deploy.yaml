@@ -31,14 +31,17 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: |
+          cd ./back-end
           gcloud auth configure-docker
           gcloud components install beta
-        working-directory: ./back-end
-      - run: docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name .
-        working-directory: ./back-end
-      - run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name
-        working-directory: ./back-end
-      - run: gcloud beta run deploy your-app-name --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name --platform managed --region your-region
-        working-directory: ./back-end
+      - run: |
+          cd ./back-end
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name .
+      - run: |
+          cd ./back-end
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name
+      - run: |
+          cd ./back-end
+          gcloud beta run deploy your-app-name --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name --platform managed --region your-region
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}

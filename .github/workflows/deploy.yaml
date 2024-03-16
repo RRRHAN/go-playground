@@ -28,6 +28,6 @@ jobs:
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground
       - run: |
           cd ./back-end
-          gcloud beta run deploy go-playground --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground --platform managed --region your-region
+          gcloud beta run deploy go-playground --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground --platform managed --region asia-southeast2
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}

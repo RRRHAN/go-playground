@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@v1
         with:
           version: '333.0.0'
@@ -21,12 +21,12 @@ jobs:
           gcloud components install beta
       - run: |
           cd ./back-end
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name .
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground .
       - run: |
           cd ./back-end
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground
       - run: |
           cd ./back-end
-          gcloud beta run deploy your-app-name --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app-name --platform managed --region your-region
+          gcloud beta run deploy go-playground --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/go-playground --platform managed --region your-region
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
